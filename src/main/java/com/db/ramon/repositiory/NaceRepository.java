@@ -26,18 +26,25 @@ public class NaceRepository {
     this.mapper = mapper;
   }
 
-  public List<NaceEntity> findAll() {
+  public List<NaceAggregate> findAll() {
     final var criteria = entityManager.getCriteriaBuilder().createQuery(NaceEntity.class);
     criteria.select(criteria.from(NaceEntity.class));
-    return entityManager.createQuery(criteria).getResultList();
+    return entityManager
+        .createQuery(criteria)
+        .getResultList()
+        .stream()
+        .map(mapper::mapToDomain)
+        .collect(Collectors.toList());
   }
 
-  public NaceEntity findById(long id) {
+  public NaceAggregate findById(long id) {
     try {
-      return entityManager
-          .createQuery("SELECT u FROM NaceEntity u WHERE u.orderId=:id", NaceEntity.class)
-          .setParameter("id", id)
-          .getSingleResult();
+      NaceEntity entity =
+          entityManager
+              .createQuery("SELECT u FROM NaceEntity u WHERE u.orderId=:id", NaceEntity.class)
+              .setParameter("id", id)
+              .getSingleResult();
+      return mapper.mapToDomain(entity);
     } catch (Exception e) {
       LOGGER.error(e + "");
       throw new RuntimeException("Cannot find the Nace by this ID");

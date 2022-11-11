@@ -10,10 +10,4 @@ services:
       POSTGRES_USER: postgres
     volumes:
       - ./config/init.sql:/docker-entrypoint-initdb.d/init.sql
-  microservice-ddd-onion:
-    build:
-      dockerfile: Dockerfile
-    depends_on:
-      - postgres
-    ports:
-      - 8443:8443
+

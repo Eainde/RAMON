@@ -11,7 +11,10 @@ import com.db.ramon.domain.*;
 import com.db.ramon.entity.NaceEntity;
 import com.db.ramon.repositiory.NaceRepository;
 import com.db.ramon.util.CsvUtil;
-import com.db.ramon.value.object.*;
+import com.db.ramon.value.object.ImmutableItemAlsoIncludes;
+import com.db.ramon.value.object.ImmutableItemExcludes;
+import com.db.ramon.value.object.ImmutableItemIncludes;
+import com.db.ramon.value.object.ImmutableReferenceToIsicRev4;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,13 +40,11 @@ class NaceServiceTest {
   private NaceAggregate naceAggregate;
   private NaceEntity entity;
   private List<NaceAggregate> naceAggregateList;
-  private List<NaceEntity> naceEntityList;
   private List<NaceDto> naceDtoList;
 
   @BeforeEach
   void setUp() {
     naceAggregateList = new ArrayList<>();
-    naceEntityList = new ArrayList<>();
     naceDtoList = new ArrayList<>();
 
     naceAggregate =
@@ -72,7 +73,6 @@ class NaceServiceTest {
     entity.setItemExcludes("Item Excludes");
     entity.setRulings("Rulings");
     entity.setRefToIsicRev4("Ref 4");
-    naceEntityList.add(entity);
 
     NaceDto naceDto =
         ImmutableNaceDto.builder()
@@ -93,7 +93,7 @@ class NaceServiceTest {
   @Test
   void findAll() {
     Mockito.when(mapper.mapToDomain(entity)).thenReturn(naceAggregate);
-    Mockito.when(repository.findAll()).thenReturn(naceEntityList);
+    Mockito.when(repository.findAll()).thenReturn(naceAggregateList);
     assertNotNull(service.findAll());
     assertEquals(service.findAll().get(0).orderId().value(), 1);
   }
@@ -101,7 +101,7 @@ class NaceServiceTest {
   @Test
   void findById() {
     Mockito.when(mapper.mapToDomain(entity)).thenReturn(naceAggregate);
-    Mockito.when(repository.findById(1)).thenReturn(entity);
+    Mockito.when(repository.findById(1)).thenReturn(naceAggregate);
     assertNotNull(service.findById(1));
     assertEquals(service.findById(1).orderId().value(), 1);
   }

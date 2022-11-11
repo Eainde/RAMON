@@ -3,7 +3,6 @@ package com.db.ramon.service;
 import com.db.ramon.Mapper;
 import com.db.ramon.aggregate.NaceAggregate;
 import com.db.ramon.controller.dto.NaceDto;
-import com.db.ramon.entity.NaceEntity;
 import com.db.ramon.repositiory.NaceRepository;
 import com.db.ramon.util.CsvUtil;
 
@@ -19,27 +18,22 @@ public class NaceService {
   private final NaceRepository repository;
 
   private final CsvUtil util;
-  private final Mapper<NaceAggregate, NaceEntity> mapper;
 
   private final Mapper<NaceAggregate, NaceDto> dtoMapper;
 
   NaceService(
-      final NaceRepository repository,
-      CsvUtil util,
-      final Mapper<NaceAggregate, NaceEntity> mapper,
-      Mapper<NaceAggregate, NaceDto> dtoMapper) {
+      final NaceRepository repository, CsvUtil util, Mapper<NaceAggregate, NaceDto> dtoMapper) {
     this.repository = repository;
     this.util = util;
-    this.mapper = mapper;
     this.dtoMapper = dtoMapper;
   }
 
   public List<NaceAggregate> findAll() {
-    return repository.findAll().stream().map(mapper::mapToDomain).collect(Collectors.toList());
+    return repository.findAll();
   }
 
   public NaceAggregate findById(long id) {
-    return mapper.mapToDomain(repository.findById(id));
+    return repository.findById(id);
   }
 
   public boolean add(MultipartFile file) throws IOException {
