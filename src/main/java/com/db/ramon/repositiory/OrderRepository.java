@@ -1,8 +1,8 @@
 package com.db.ramon.repositiory;
 
 import com.db.ramon.Mapper;
-import com.db.ramon.aggregate.NaceAggregate;
-import com.db.ramon.entity.NaceEntity;
+import com.db.ramon.aggregate.OrderAggregate;
+import com.db.ramon.entity.OrderEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,19 +16,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class NaceRepository {
+public class OrderRepository {
   @PersistenceContext private final EntityManager entityManager;
-  private final Mapper<NaceAggregate, NaceEntity> mapper;
-  private static final Logger LOGGER = LoggerFactory.getLogger(NaceRepository.class);
+  private final Mapper<OrderAggregate, OrderEntity> mapper;
+  private static final Logger LOGGER = LoggerFactory.getLogger(OrderRepository.class);
 
-  NaceRepository(final EntityManager entityManager, Mapper<NaceAggregate, NaceEntity> mapper) {
+  OrderRepository(final EntityManager entityManager, Mapper<OrderAggregate, OrderEntity> mapper) {
     this.entityManager = entityManager;
     this.mapper = mapper;
   }
 
-  public List<NaceAggregate> findAll() {
-    final var criteria = entityManager.getCriteriaBuilder().createQuery(NaceEntity.class);
-    criteria.select(criteria.from(NaceEntity.class));
+  public List<OrderAggregate> findAll() {
+    final var criteria = entityManager.getCriteriaBuilder().createQuery(OrderEntity.class);
+    criteria.select(criteria.from(OrderEntity.class));
     return entityManager
         .createQuery(criteria)
         .getResultList()
@@ -37,24 +37,24 @@ public class NaceRepository {
         .collect(Collectors.toList());
   }
 
-  public NaceAggregate findById(long id) {
+  public OrderAggregate findById(long id) {
     try {
-      NaceEntity entity =
+      OrderEntity entity =
           entityManager
-              .createQuery("SELECT u FROM NaceEntity u WHERE u.orderId=:id", NaceEntity.class)
+              .createQuery("SELECT u FROM OrderEntity u WHERE u.orderId=:id", OrderEntity.class)
               .setParameter("id", id)
               .getSingleResult();
       return mapper.mapToDomain(entity);
     } catch (Exception e) {
       LOGGER.error(e + "");
-      throw new RuntimeException("Cannot find the Nace by this ID");
+      throw new RuntimeException("Cannot find the order by this ID");
     }
   }
 
   @Transactional
-  public boolean add(List<NaceAggregate> domains) {
+  public boolean add(List<OrderAggregate> domains) {
     try {
-      List<NaceEntity> entity =
+      List<OrderEntity> entity =
           domains.stream().map(mapper::mapToEntity).collect(Collectors.toList());
       entity.forEach(entityManager::persist);
       return true;

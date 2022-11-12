@@ -3,13 +3,13 @@ package com.db.ramon.service;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.db.ramon.Mapper;
-import com.db.ramon.aggregate.ImmutableNaceAggregate;
-import com.db.ramon.aggregate.NaceAggregate;
-import com.db.ramon.controller.dto.ImmutableNaceDto;
-import com.db.ramon.controller.dto.NaceDto;
+import com.db.ramon.aggregate.ImmutableOrderAggregate;
+import com.db.ramon.aggregate.OrderAggregate;
+import com.db.ramon.controller.dto.ImmutableOrderDto;
+import com.db.ramon.controller.dto.OrderDto;
 import com.db.ramon.domain.*;
-import com.db.ramon.entity.NaceEntity;
-import com.db.ramon.repositiory.NaceRepository;
+import com.db.ramon.entity.OrderEntity;
+import com.db.ramon.repositiory.OrderRepository;
 import com.db.ramon.util.CsvUtil;
 import com.db.ramon.value.object.ImmutableItemAlsoIncludes;
 import com.db.ramon.value.object.ImmutableItemExcludes;
@@ -31,24 +31,24 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 
 @SpringBootTest
-class NaceServiceTest {
-  @Autowired private NaceService service;
-  @MockBean private NaceRepository repository;
+class OrderServiceTest {
+  @Autowired private OrderService service;
+  @MockBean private OrderRepository repository;
   @MockBean private CsvUtil util;
-  @MockBean private Mapper<NaceAggregate, NaceEntity> mapper;
-  @MockBean private Mapper<NaceAggregate, NaceDto> dtoMapper;
-  private NaceAggregate naceAggregate;
-  private NaceEntity entity;
-  private List<NaceAggregate> naceAggregateList;
-  private List<NaceDto> naceDtoList;
+  @MockBean private Mapper<OrderAggregate, OrderEntity> mapper;
+  @MockBean private Mapper<OrderAggregate, OrderDto> dtoMapper;
+  private OrderAggregate orderAggregate;
+  private OrderEntity entity;
+  private List<OrderAggregate> orderAggregateList;
+  private List<OrderDto> orderDtoList;
 
   @BeforeEach
   void setUp() {
-    naceAggregateList = new ArrayList<>();
-    naceDtoList = new ArrayList<>();
+    orderAggregateList = new ArrayList<>();
+    orderDtoList = new ArrayList<>();
 
-    naceAggregate =
-        ImmutableNaceAggregate.builder()
+    orderAggregate =
+        ImmutableOrderAggregate.builder()
             .orderId(ImmutableOrderId.of(1L))
             .level(ImmutableLevel.of(1))
             .code(ImmutableCode.of("A"))
@@ -60,9 +60,9 @@ class NaceServiceTest {
             .itemExcludes(Optional.of("Item excludes").map(ImmutableItemExcludes::of))
             .refToIsicRev4(ImmutableReferenceToIsicRev4.of("Rev 4"))
             .build();
-    naceAggregateList.add(naceAggregate);
+    orderAggregateList.add(orderAggregate);
 
-    entity = new NaceEntity();
+    entity = new OrderEntity();
     entity.setOrderId(1L);
     entity.setLevel(1);
     entity.setCode("Code");
@@ -74,8 +74,8 @@ class NaceServiceTest {
     entity.setRulings("Rulings");
     entity.setRefToIsicRev4("Ref 4");
 
-    NaceDto naceDto =
-        ImmutableNaceDto.builder()
+    OrderDto orderDto =
+        ImmutableOrderDto.builder()
             .orderId(1)
             .level(1)
             .code("code")
@@ -87,21 +87,21 @@ class NaceServiceTest {
             .itemExcludes("item Excludes")
             .refToIsicRev4("rev 4")
             .build();
-    naceDtoList.add(naceDto);
+    orderDtoList.add(orderDto);
   }
 
   @Test
   void findAll() {
-    Mockito.when(mapper.mapToDomain(entity)).thenReturn(naceAggregate);
-    Mockito.when(repository.findAll()).thenReturn(naceAggregateList);
+    Mockito.when(mapper.mapToDomain(entity)).thenReturn(orderAggregate);
+    Mockito.when(repository.findAll()).thenReturn(orderAggregateList);
     assertNotNull(service.findAll());
     assertEquals(service.findAll().get(0).orderId().value(), 1);
   }
 
   @Test
   void findById() {
-    Mockito.when(mapper.mapToDomain(entity)).thenReturn(naceAggregate);
-    Mockito.when(repository.findById(1)).thenReturn(naceAggregate);
+    Mockito.when(mapper.mapToDomain(entity)).thenReturn(orderAggregate);
+    Mockito.when(repository.findById(1)).thenReturn(orderAggregate);
     assertNotNull(service.findById(1));
     assertEquals(service.findById(1).orderId().value(), 1);
   }
@@ -111,8 +111,8 @@ class NaceServiceTest {
     MockMultipartFile file =
         new MockMultipartFile(
             "file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, World!".getBytes());
-    Mockito.when(repository.add(naceAggregateList)).thenReturn(true);
-    Mockito.when(util.convertCsvToDto(file.getInputStream())).thenReturn(naceDtoList);
+    Mockito.when(repository.add(orderAggregateList)).thenReturn(true);
+    Mockito.when(util.convertCsvToDto(file.getInputStream())).thenReturn(orderDtoList);
     assertTrue(service.add(file));
   }
 }

@@ -1,10 +1,10 @@
 package com.db.ramon.controller.dto.mapper;
 
 import com.db.ramon.Mapper;
-import com.db.ramon.aggregate.ImmutableNaceAggregate;
-import com.db.ramon.aggregate.NaceAggregate;
-import com.db.ramon.controller.dto.ImmutableNaceDto;
-import com.db.ramon.controller.dto.NaceDto;
+import com.db.ramon.aggregate.ImmutableOrderAggregate;
+import com.db.ramon.aggregate.OrderAggregate;
+import com.db.ramon.controller.dto.ImmutableOrderDto;
+import com.db.ramon.controller.dto.OrderDto;
 import com.db.ramon.domain.*;
 import com.db.ramon.value.object.*;
 
@@ -16,10 +16,10 @@ import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NaceDtoMapper implements Mapper<NaceAggregate, NaceDto> {
+public class OrderDtoMapper implements Mapper<OrderAggregate, OrderDto> {
   @Override
-  public NaceAggregate mapToDomain(NaceDto dto) {
-    return ImmutableNaceAggregate.builder()
+  public OrderAggregate mapToDomain(OrderDto dto) {
+    return ImmutableOrderAggregate.builder()
         .orderId(ImmutableOrderId.of(dto.orderId()))
         .level(ImmutableLevel.of(dto.level()))
         .code(ImmutableCode.of(dto.code()))
@@ -35,8 +35,8 @@ public class NaceDtoMapper implements Mapper<NaceAggregate, NaceDto> {
   }
 
   @Override
-  public NaceDto mapToEntity(NaceAggregate domain) {
-    return ImmutableNaceDto.builder()
+  public OrderDto mapToEntity(OrderAggregate domain) {
+    return ImmutableOrderDto.builder()
         .orderId(domain.orderId().value())
         .level(domain.level().value())
         .code(domain.code().value())
@@ -50,12 +50,12 @@ public class NaceDtoMapper implements Mapper<NaceAggregate, NaceDto> {
         .build();
   }
 
-  public List<NaceDto> mapToDto(List<CSVRecord> csvRecords) {
-    List<NaceDto> result = new ArrayList<>();
+  public List<OrderDto> mapToDto(List<CSVRecord> csvRecords) {
+    List<OrderDto> result = new ArrayList<>();
     csvRecords.forEach(
         record -> {
-          NaceDto naceDto =
-              ImmutableNaceDto.builder()
+          OrderDto orderDto =
+              ImmutableOrderDto.builder()
                   .orderId(Long.parseLong(record.get(0)))
                   .level(Integer.parseInt(record.get(1)))
                   .code(record.get(2))
@@ -67,7 +67,7 @@ public class NaceDtoMapper implements Mapper<NaceAggregate, NaceDto> {
                   .itemExcludes(record.get(8))
                   .refToIsicRev4(record.get(9))
                   .build();
-          result.add(naceDto);
+          result.add(orderDto);
         });
     return result;
   }

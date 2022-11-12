@@ -6,11 +6,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.db.ramon.Mapper;
-import com.db.ramon.aggregate.ImmutableNaceAggregate;
-import com.db.ramon.aggregate.NaceAggregate;
-import com.db.ramon.controller.dto.NaceDto;
+import com.db.ramon.aggregate.ImmutableOrderAggregate;
+import com.db.ramon.aggregate.OrderAggregate;
+import com.db.ramon.controller.dto.OrderDto;
 import com.db.ramon.domain.*;
-import com.db.ramon.service.NaceService;
+import com.db.ramon.service.OrderService;
 import com.db.ramon.value.object.ImmutableItemAlsoIncludes;
 import com.db.ramon.value.object.ImmutableItemExcludes;
 import com.db.ramon.value.object.ImmutableItemIncludes;
@@ -35,23 +35,23 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@WebMvcTest(controllers = NaceController.class)
+@WebMvcTest(controllers = OrderController.class)
 // @TestPropertySource(locations = {"classpath:unitTest.properties"})
-class NaceControllerTest {
+class OrderControllerTest {
   private MockMvc mockMvc;
   @Autowired private WebApplicationContext context;
-  @MockBean private Mapper<NaceAggregate, NaceDto> mapper;
-  @MockBean private NaceService service;
-  private NaceAggregate naceAggregate;
-  private List<NaceAggregate> naceAggregateList;
+  @MockBean private Mapper<OrderAggregate, OrderDto> mapper;
+  @MockBean private OrderService service;
+  private OrderAggregate orderAggregate;
+  private List<OrderAggregate> orderAggregateList;
 
   @BeforeEach
   void setUp() {
     mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-    naceAggregateList = new ArrayList<>();
+    orderAggregateList = new ArrayList<>();
 
-    naceAggregate =
-        ImmutableNaceAggregate.builder()
+    orderAggregate =
+        ImmutableOrderAggregate.builder()
             .orderId(ImmutableOrderId.of(1L))
             .level(ImmutableLevel.of(1))
             .code(ImmutableCode.of("A"))
@@ -63,14 +63,14 @@ class NaceControllerTest {
             .itemExcludes(Optional.of("Item excludes").map(ImmutableItemExcludes::of))
             .refToIsicRev4(ImmutableReferenceToIsicRev4.of("Rev 4"))
             .build();
-    naceAggregateList.add(naceAggregate);
+    orderAggregateList.add(orderAggregate);
   }
 
   @Test
   void findAll() throws Exception {
-    Mockito.when(service.findAll()).thenReturn(naceAggregateList);
+    Mockito.when(service.findAll()).thenReturn(orderAggregateList);
     mockMvc
-        .perform(get("/nace/"))
+        .perform(get("/order/"))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
         .andDo(MockMvcResultHandlers.print());
@@ -79,9 +79,9 @@ class NaceControllerTest {
   @ParameterizedTest
   @ValueSource(ints = 1)
   void findById(int id) throws Exception {
-    Mockito.when(service.findById(id)).thenReturn(naceAggregate);
+    Mockito.when(service.findById(id)).thenReturn(orderAggregate);
     mockMvc
-        .perform(get("/nace/{id}", id))
+        .perform(get("/order/{id}", id))
         .andExpect(status().isOk())
         .andDo(MockMvcResultHandlers.print());
   }
@@ -92,6 +92,6 @@ class NaceControllerTest {
         new MockMultipartFile(
             "file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, World!".getBytes());
     Mockito.when(service.add(file)).thenReturn(true);
-    mockMvc.perform(multipart("/nace/").file(file)).andExpect(status().isOk());
+    mockMvc.perform(multipart("/order/").file(file)).andExpect(status().isOk());
   }
 }

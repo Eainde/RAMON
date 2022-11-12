@@ -16,10 +16,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -51,6 +51,26 @@ public class GeneralRestCallSteps {
         StateConstants.URI_BUILDER,
         UriComponentsBuilder.class,
         spec -> spec.queryParam(parameterName, parameterValue));
+  }
+
+  @Given("passing csv file as query param")
+  public void fileAsQueryParameter() throws IOException {
+    LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+    FileSystemResource value = new FileSystemResource(new ClassPathResource("NACE.csv").getFile());
+    map.add("file", value);
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+    HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
+    RestTemplate restTemplate = new RestTemplate();
+    final UriComponentsBuilder uriComponentsBuilder =
+        behaviourState.fetchValue(StateConstants.URI_BUILDER, UriComponentsBuilder.class);
+    behaviourState.putResult(
+        StateConstants.RESPONSE_ENTITY,
+        () ->
+            restTemplate.exchange(
+                uriComponentsBuilder.toUriString(), HttpMethod.POST, requestEntity, String.class));
+    final var response =
+        behaviourState.fetchValue(StateConstants.RESPONSE_ENTITY, ResponseEntity.class);
   }
 
   @When("request body is {string}")

@@ -1,10 +1,10 @@
 package com.db.ramon.entity.mapper;
 
 import com.db.ramon.Mapper;
-import com.db.ramon.aggregate.ImmutableNaceAggregate;
-import com.db.ramon.aggregate.NaceAggregate;
+import com.db.ramon.aggregate.ImmutableOrderAggregate;
+import com.db.ramon.aggregate.OrderAggregate;
 import com.db.ramon.domain.*;
-import com.db.ramon.entity.NaceEntity;
+import com.db.ramon.entity.OrderEntity;
 import com.db.ramon.value.object.*;
 
 import java.util.Optional;
@@ -12,10 +12,10 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NaceEntityMapper implements Mapper<NaceAggregate, NaceEntity> {
+public class OrderEntityMapper implements Mapper<OrderAggregate, OrderEntity> {
   @Override
-  public NaceAggregate mapToDomain(NaceEntity entity) {
-    return ImmutableNaceAggregate.builder()
+  public OrderAggregate mapToDomain(OrderEntity entity) {
+    return ImmutableOrderAggregate.builder()
         .orderId(ImmutableOrderId.of(entity.getOrderId()))
         .level(ImmutableLevel.of(entity.getLevel()))
         .code(ImmutableCode.of(entity.getCode()))
@@ -31,8 +31,8 @@ public class NaceEntityMapper implements Mapper<NaceAggregate, NaceEntity> {
   }
 
   @Override
-  public NaceEntity mapToEntity(NaceAggregate domain) {
-    NaceEntity entity = new NaceEntity();
+  public OrderEntity mapToEntity(OrderAggregate domain) {
+    OrderEntity entity = new OrderEntity();
     entity.setOrderId(domain.orderId().value());
     entity.setLevel(domain.level().value());
     entity.setCode(domain.code().value());

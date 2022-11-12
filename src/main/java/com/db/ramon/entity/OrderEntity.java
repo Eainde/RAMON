@@ -6,8 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "nace")
-public class NaceEntity {
+@Table(name = "_order")
+public class OrderEntity {
   @Id
   @Column(name = "order_id")
   private long orderId;

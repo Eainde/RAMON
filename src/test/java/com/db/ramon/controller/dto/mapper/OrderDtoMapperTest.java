@@ -2,11 +2,11 @@ package com.db.ramon.controller.dto.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.db.ramon.aggregate.ImmutableNaceAggregate;
-import com.db.ramon.aggregate.NaceAggregate;
+import com.db.ramon.aggregate.ImmutableOrderAggregate;
+import com.db.ramon.aggregate.OrderAggregate;
 import com.db.ramon.constant.FileHeaderEnum;
-import com.db.ramon.controller.dto.ImmutableNaceDto;
-import com.db.ramon.controller.dto.NaceDto;
+import com.db.ramon.controller.dto.ImmutableOrderDto;
+import com.db.ramon.controller.dto.OrderDto;
 import com.db.ramon.domain.*;
 import com.db.ramon.value.object.ImmutableItemAlsoIncludes;
 import com.db.ramon.value.object.ImmutableItemExcludes;
@@ -26,17 +26,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class NaceDtoMapperTest {
-  private NaceAggregate naceAggregate;
+class OrderDtoMapperTest {
+  private OrderAggregate orderAggregate;
 
-  private NaceDto naceDto;
-  private NaceDtoMapper mapper;
+  private OrderDto orderDto;
+  private OrderDtoMapper mapper;
 
   @BeforeEach
   public void setUp() {
-    mapper = new NaceDtoMapper();
-    naceAggregate =
-        ImmutableNaceAggregate.builder()
+    mapper = new OrderDtoMapper();
+    orderAggregate =
+        ImmutableOrderAggregate.builder()
             .orderId(ImmutableOrderId.of(1L))
             .level(ImmutableLevel.of(1))
             .code(ImmutableCode.of("A"))
@@ -49,8 +49,8 @@ class NaceDtoMapperTest {
             .refToIsicRev4(ImmutableReferenceToIsicRev4.of("Rev 4"))
             .build();
 
-    naceDto =
-        ImmutableNaceDto.builder()
+    orderDto =
+        ImmutableOrderDto.builder()
             .orderId(1)
             .level(1)
             .code("code")
@@ -66,12 +66,12 @@ class NaceDtoMapperTest {
 
   @Test
   void mapToDomain() {
-    assertEquals(mapper.mapToDomain(naceDto).orderId().value(), 1L);
+    assertEquals(mapper.mapToDomain(orderDto).orderId().value(), 1L);
   }
 
   @Test
   void mapToEntity() {
-    assertEquals(mapper.mapToEntity(naceAggregate).orderId(), 1);
+    assertEquals(mapper.mapToEntity(orderAggregate).orderId(), 1);
   }
 
   @Test

@@ -1,9 +1,9 @@
 package com.db.ramon.stepdefinitions;
 
 import com.db.ramon.Mapper;
-import com.db.ramon.aggregate.NaceAggregate;
-import com.db.ramon.entity.NaceEntity;
-import com.db.ramon.repositiory.NaceRepository;
+import com.db.ramon.aggregate.OrderAggregate;
+import com.db.ramon.entity.OrderEntity;
+import com.db.ramon.repositiory.OrderRepository;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.DataTableType;
@@ -20,14 +20,14 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.testcontainers.shaded.com.google.common.collect.ImmutableMap;
 
 public class MockDatabaseSteps {
-  private final NaceRepository repository;
+  private final OrderRepository repository;
 
-  private final Mapper<NaceAggregate, NaceEntity> mapper;
+  private final Mapper<OrderAggregate, OrderEntity> mapper;
   private final NamedParameterJdbcTemplate jdbcTemplate;
 
   MockDatabaseSteps(
-      final NaceRepository repository,
-      Mapper<NaceAggregate, NaceEntity> mapper,
+      final OrderRepository repository,
+      Mapper<OrderAggregate, OrderEntity> mapper,
       final NamedParameterJdbcTemplate jdbcTemplate) {
     this.repository = repository;
     this.mapper = mapper;
@@ -43,13 +43,13 @@ public class MockDatabaseSteps {
 
   @Given("Add following orders in database")
   public void initializeData(final DataTable dataTable) {
-    final List<NaceEntity> records = dataTable.asList(NaceEntity.class);
+    final List<OrderEntity> records = dataTable.asList(OrderEntity.class);
     repository.add(records.stream().map(mapper::mapToDomain).collect(Collectors.toList()));
   }
 
   @DataTableType
-  public NaceEntity orderEntry(final Map<String, String> table) {
-    NaceEntity order = new NaceEntity();
+  public OrderEntity orderEntry(final Map<String, String> table) {
+    OrderEntity order = new OrderEntity();
     order.setOrderId(Long.parseLong(table.get("orderId")));
     order.setLevel(Integer.parseInt(table.get("_level")));
     order.setCode(table.get("code"));

@@ -1,8 +1,8 @@
 package com.db.ramon.util;
 
 import com.db.ramon.constant.FileHeaderEnum;
-import com.db.ramon.controller.dto.NaceDto;
-import com.db.ramon.controller.dto.mapper.NaceDtoMapper;
+import com.db.ramon.controller.dto.OrderDto;
+import com.db.ramon.controller.dto.mapper.OrderDtoMapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,13 +18,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CsvUtil {
-  private final NaceDtoMapper mapper;
+  private final OrderDtoMapper mapper;
 
-  CsvUtil(final NaceDtoMapper mapper) {
+  CsvUtil(final OrderDtoMapper mapper) {
     this.mapper = mapper;
   }
 
-  public List<NaceDto> convertCsvToDto(InputStream is) {
+  public List<OrderDto> convertCsvToDto(InputStream is) {
     try (BufferedReader fileReader =
             new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         CSVParser csvParser =

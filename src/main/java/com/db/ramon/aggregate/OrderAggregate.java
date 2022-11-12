@@ -11,7 +11,7 @@ import java.util.Optional;
 import org.immutables.value.Value;
 
 @Value.Immutable
-public interface NaceAggregate {
+public interface OrderAggregate {
   OrderId orderId();
 
   Level level();

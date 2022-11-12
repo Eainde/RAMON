@@ -1,9 +1,9 @@
 package com.db.ramon.controller;
 
 import com.db.ramon.Mapper;
-import com.db.ramon.aggregate.NaceAggregate;
-import com.db.ramon.controller.dto.NaceDto;
-import com.db.ramon.service.NaceService;
+import com.db.ramon.aggregate.OrderAggregate;
+import com.db.ramon.controller.dto.OrderDto;
+import com.db.ramon.service.OrderService;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,25 +15,25 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/nace")
-public class NaceController {
-  private final Mapper<NaceAggregate, NaceDto> mapper;
-  private final NaceService service;
+@RequestMapping("/order")
+public class OrderController {
+  private final Mapper<OrderAggregate, OrderDto> mapper;
+  private final OrderService service;
 
-  NaceController(final NaceService service, final Mapper<NaceAggregate, NaceDto> mapper) {
+  OrderController(final OrderService service, final Mapper<OrderAggregate, OrderDto> mapper) {
     this.service = service;
     this.mapper = mapper;
   }
 
   @GetMapping(value = "/", produces = "application/json")
-  public ResponseEntity<List<NaceDto>> findAll() {
+  public ResponseEntity<List<OrderDto>> findAll() {
     return new ResponseEntity<>(
         service.findAll().stream().map(mapper::mapToEntity).collect(Collectors.toList()),
         HttpStatus.OK);
   }
 
   @GetMapping(value = "/{id}", produces = "application/json")
-  public ResponseEntity<NaceDto> findById(@PathVariable("id") long id) {
+  public ResponseEntity<OrderDto> findById(@PathVariable("id") long id) {
     return new ResponseEntity<>(mapper.mapToEntity(service.findById(id)), HttpStatus.OK);
   }
 

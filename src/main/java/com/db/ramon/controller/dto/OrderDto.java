@@ -8,9 +8,9 @@ import javax.annotation.Nullable;
 import org.immutables.value.Value;
 
 @Value.Immutable
-@JsonSerialize(as = ImmutableNaceDto.class)
-@JsonDeserialize(as = ImmutableNaceDto.class)
-public interface NaceDto {
+@JsonSerialize(as = ImmutableOrderDto.class)
+@JsonDeserialize(as = ImmutableOrderDto.class)
+public interface OrderDto {
 
   long orderId();
 
