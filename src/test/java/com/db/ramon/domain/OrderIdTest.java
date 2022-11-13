@@ -8,17 +8,17 @@ import org.junit.jupiter.api.Test;
 
 class OrderIdTest {
 
-  @Test
-  void objectCreation() {
-    final OrderId userId = ImmutableOrderId.builder().value(31L).build();
-    assertEquals(31, userId.value().intValue());
-  }
+    @Test
+    void objectCreation() {
+        final OrderId userId = ImmutableOrderId.builder().value(31L).build();
+        assertEquals(31, userId.value().intValue());
+    }
 
-  @Test
-  void testExpectedException() {
-    IllegalStateException thrown =
-        Assertions.assertThrows(
-            IllegalStateException.class, () -> ImmutableOrderId.builder().value(0L).build());
-    assertTrue(thrown.getMessage().contains("order id cannot be 0"));
-  }
+    @Test
+    void testExpectedException() {
+        IllegalStateException thrown = Assertions.assertThrows(
+                IllegalStateException.class,
+                () -> ImmutableOrderId.builder().value(0L).build());
+        assertTrue(thrown.getMessage().contains("order id cannot be 0"));
+    }
 }

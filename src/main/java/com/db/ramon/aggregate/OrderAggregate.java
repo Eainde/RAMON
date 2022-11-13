@@ -5,30 +5,28 @@ import com.db.ramon.value.object.ItemAlsoIncludes;
 import com.db.ramon.value.object.ItemExcludes;
 import com.db.ramon.value.object.ItemIncludes;
 import com.db.ramon.value.object.ReferenceToIsicRev4;
-
 import java.util.Optional;
-
 import org.immutables.value.Value;
 
 @Value.Immutable
 public interface OrderAggregate {
-  OrderId orderId();
+    OrderId orderId();
 
-  Level level();
+    Level level();
 
-  Code code();
+    Code code();
 
-  Parent parent();
+    Parent parent();
 
-  Description description();
+    Description description();
 
-  Optional<ItemIncludes> itemIncludes();
+    Optional<ItemIncludes> itemIncludes();
 
-  Optional<ItemAlsoIncludes> itemAlsoIncludes();
+    Optional<ItemAlsoIncludes> itemAlsoIncludes();
 
-  Optional<Rulings> rulings();
+    Optional<Rulings> rulings();
 
-  Optional<ItemExcludes> itemExcludes();
+    Optional<ItemExcludes> itemExcludes();
 
-  ReferenceToIsicRev4 refToIsicRev4();
+    ReferenceToIsicRev4 refToIsicRev4();
 }

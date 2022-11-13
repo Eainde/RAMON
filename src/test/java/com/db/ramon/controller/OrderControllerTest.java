@@ -15,11 +15,9 @@ import com.db.ramon.value.object.ImmutableItemAlsoIncludes;
 import com.db.ramon.value.object.ImmutableItemExcludes;
 import com.db.ramon.value.object.ImmutableItemIncludes;
 import com.db.ramon.value.object.ImmutableReferenceToIsicRev4;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -38,60 +36,61 @@ import org.springframework.web.context.WebApplicationContext;
 @WebMvcTest(controllers = OrderController.class)
 // @TestPropertySource(locations = {"classpath:unitTest.properties"})
 class OrderControllerTest {
-  private MockMvc mockMvc;
-  @Autowired private WebApplicationContext context;
-  @MockBean private Mapper<OrderAggregate, OrderDto> mapper;
-  @MockBean private OrderService service;
-  private OrderAggregate orderAggregate;
-  private List<OrderAggregate> orderAggregateList;
+    private MockMvc mockMvc;
 
-  @BeforeEach
-  void setUp() {
-    mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-    orderAggregateList = new ArrayList<>();
+    @Autowired
+    private WebApplicationContext context;
 
-    orderAggregate =
-        ImmutableOrderAggregate.builder()
-            .orderId(ImmutableOrderId.of(1L))
-            .level(ImmutableLevel.of(1))
-            .code(ImmutableCode.of("A"))
-            .parent(ImmutableParent.of("Ko"))
-            .description(ImmutableDescription.of("Description"))
-            .itemIncludes(Optional.of("item includes").map(ImmutableItemIncludes::of))
-            .itemAlsoIncludes(Optional.of("Item also includes").map(ImmutableItemAlsoIncludes::of))
-            .rulings(Optional.of("Rulings").map(ImmutableRulings::of))
-            .itemExcludes(Optional.of("Item excludes").map(ImmutableItemExcludes::of))
-            .refToIsicRev4(ImmutableReferenceToIsicRev4.of("Rev 4"))
-            .build();
-    orderAggregateList.add(orderAggregate);
-  }
+    @MockBean
+    private Mapper<OrderAggregate, OrderDto> mapper;
 
-  @Test
-  void findAll() throws Exception {
-    Mockito.when(service.findAll()).thenReturn(orderAggregateList);
-    mockMvc
-        .perform(get("/order/"))
-        .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
-        .andDo(MockMvcResultHandlers.print());
-  }
+    @MockBean
+    private OrderService service;
 
-  @ParameterizedTest
-  @ValueSource(ints = 1)
-  void findById(int id) throws Exception {
-    Mockito.when(service.findById(id)).thenReturn(orderAggregate);
-    mockMvc
-        .perform(get("/order/{id}", id))
-        .andExpect(status().isOk())
-        .andDo(MockMvcResultHandlers.print());
-  }
+    private OrderAggregate orderAggregate;
+    private List<OrderAggregate> orderAggregateList;
 
-  @Test
-  void upload() throws Exception {
-    MockMultipartFile file =
-        new MockMultipartFile(
-            "file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, World!".getBytes());
-    Mockito.when(service.add(file)).thenReturn(true);
-    mockMvc.perform(multipart("/order/").file(file)).andExpect(status().isOk());
-  }
+    @BeforeEach
+    void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        orderAggregateList = new ArrayList<>();
+
+        orderAggregate = ImmutableOrderAggregate.builder()
+                .orderId(ImmutableOrderId.of(1L))
+                .level(ImmutableLevel.of(1))
+                .code(ImmutableCode.of("A"))
+                .parent(ImmutableParent.of("Ko"))
+                .description(ImmutableDescription.of("Description"))
+                .itemIncludes(Optional.of("item includes").map(ImmutableItemIncludes::of))
+                .itemAlsoIncludes(Optional.of("Item also includes").map(ImmutableItemAlsoIncludes::of))
+                .rulings(Optional.of("Rulings").map(ImmutableRulings::of))
+                .itemExcludes(Optional.of("Item excludes").map(ImmutableItemExcludes::of))
+                .refToIsicRev4(ImmutableReferenceToIsicRev4.of("Rev 4"))
+                .build();
+        orderAggregateList.add(orderAggregate);
+    }
+
+    @Test
+    void findAll() throws Exception {
+        Mockito.when(service.findAll()).thenReturn(orderAggregateList);
+        mockMvc.perform(get("/order/"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = 1)
+    void findById(int id) throws Exception {
+        Mockito.when(service.findById(id)).thenReturn(orderAggregate);
+        mockMvc.perform(get("/order/{id}", id)).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    void upload() throws Exception {
+        MockMultipartFile file =
+                new MockMultipartFile("file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, World!".getBytes());
+        Mockito.when(service.add(file)).thenReturn(true);
+        mockMvc.perform(multipart("/order/").file(file)).andExpect(status().isOk());
+    }
 }

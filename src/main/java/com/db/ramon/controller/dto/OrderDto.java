@@ -2,9 +2,7 @@ package com.db.ramon.controller.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import javax.annotation.Nullable;
-
 import org.immutables.value.Value;
 
 @Value.Immutable
@@ -12,27 +10,27 @@ import org.immutables.value.Value;
 @JsonDeserialize(as = ImmutableOrderDto.class)
 public interface OrderDto {
 
-  long orderId();
+    long orderId();
 
-  int level();
+    int level();
 
-  String code();
+    String code();
 
-  String parent();
+    String parent();
 
-  String description();
+    String description();
 
-  @Nullable
-  String itemIncludes();
+    @Nullable
+    String itemIncludes();
 
-  @Nullable
-  String itemAlsoIncludes();
+    @Nullable
+    String itemAlsoIncludes();
 
-  @Nullable
-  String rulings();
+    @Nullable
+    String rulings();
 
-  @Nullable
-  String itemExcludes();
+    @Nullable
+    String itemExcludes();
 
-  String refToIsicRev4();
+    String refToIsicRev4();
 }

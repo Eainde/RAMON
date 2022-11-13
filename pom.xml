@@ -34,6 +34,7 @@
         <cucumber.version>6.10.4</cucumber.version>
         <mockserver.version>1.16.0</mockserver.version>
         <mockserver-client-java.version>5.11.2</mockserver-client-java.version>
+        <palantirJavaFormat.version>2.28.0</palantirJavaFormat.version>
     </properties>
 
     <dependencyManagement>
@@ -248,7 +249,7 @@
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
-                <version>2.9.0</version>
+                <version>2.27.2</version>
                 <executions>
                     <execution>
                         <phase>process-sources</phase>
@@ -264,14 +265,12 @@
                             <include>src/test/java/**</include>
                             <include>src/it/java/**</include>
                         </includes>
-                        <googleJavaFormat>
-                            <version>1.6</version>
-                            <style>GOOGLE</style>
-                        </googleJavaFormat>
                         <importOrder>
                             <order>com, diffplug,java,javax,org</order>
                         </importOrder>
-
+                        <palantirJavaFormat>
+                            <version>${palantirJavaFormat.version}</version>
+                        </palantirJavaFormat>
                     </java>
                 </configuration>
             </plugin>
@@ -309,7 +308,7 @@
                 <version>3.0.0-M5</version>
                 <configuration>
                     <includes>
-                        <include>**/*IT.java</include>
+                        <include>**/**IT.java</include>
                     </includes>
                 </configuration>
                 <executions>
@@ -328,9 +327,44 @@
                     <reportFormat>plain</reportFormat>
                     <includes>
                         <include>**/*Test.java</include>
-                        <include>**/*IT.java</include>
+                        <include>**/**IT.java</include>
+                        <testFailureIgnore>true</testFailureIgnore>
                     </includes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>5.6.2</version>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>AutomationFrameworkSkeleton</projectName>
+                            <!-- optional, per documentation set this to "true" to bypass generation of Cucumber Reports entirely, defaults to false if not specified -->
+                            <skip>false</skip>
+                            <outputDirectory>${project.build.directory}
+                            </outputDirectory>
+                            <inputDirectory>${project.build.directory}
+                            </inputDirectory>
+                            <jsonFiles>
+                                <param>**/*.json</param>
+                            </jsonFiles>
+
+                            <!-- optional, set true to group features by its Ids -->
+                            <mergeFeaturesById>false</mergeFeaturesById>
+                            <!-- optional, set true to get a final report with latest results of the same test from different test runs -->
+                            <mergeFeaturesWithRetest>false
+                            </mergeFeaturesWithRetest>
+                            <!-- optional, set true to fail build on test failures -->
+                            <checkBuildResult>false</checkBuildResult>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

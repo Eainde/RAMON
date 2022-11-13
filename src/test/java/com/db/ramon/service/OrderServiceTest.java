@@ -15,12 +15,10 @@ import com.db.ramon.value.object.ImmutableItemAlsoIncludes;
 import com.db.ramon.value.object.ImmutableItemExcludes;
 import com.db.ramon.value.object.ImmutableItemIncludes;
 import com.db.ramon.value.object.ImmutableReferenceToIsicRev4;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -32,87 +30,94 @@ import org.springframework.mock.web.MockMultipartFile;
 
 @SpringBootTest
 class OrderServiceTest {
-  @Autowired private OrderService service;
-  @MockBean private OrderRepository repository;
-  @MockBean private CsvUtil util;
-  @MockBean private Mapper<OrderAggregate, OrderEntity> mapper;
-  @MockBean private Mapper<OrderAggregate, OrderDto> dtoMapper;
-  private OrderAggregate orderAggregate;
-  private OrderEntity entity;
-  private List<OrderAggregate> orderAggregateList;
-  private List<OrderDto> orderDtoList;
+    @Autowired
+    private OrderService service;
 
-  @BeforeEach
-  void setUp() {
-    orderAggregateList = new ArrayList<>();
-    orderDtoList = new ArrayList<>();
+    @MockBean
+    private OrderRepository repository;
 
-    orderAggregate =
-        ImmutableOrderAggregate.builder()
-            .orderId(ImmutableOrderId.of(1L))
-            .level(ImmutableLevel.of(1))
-            .code(ImmutableCode.of("A"))
-            .parent(ImmutableParent.of("Ko"))
-            .description(ImmutableDescription.of("Description"))
-            .itemIncludes(Optional.of("item includes").map(ImmutableItemIncludes::of))
-            .itemAlsoIncludes(Optional.of("Item also includes").map(ImmutableItemAlsoIncludes::of))
-            .rulings(Optional.of("Rulings").map(ImmutableRulings::of))
-            .itemExcludes(Optional.of("Item excludes").map(ImmutableItemExcludes::of))
-            .refToIsicRev4(ImmutableReferenceToIsicRev4.of("Rev 4"))
-            .build();
-    orderAggregateList.add(orderAggregate);
+    @MockBean
+    private CsvUtil util;
 
-    entity = new OrderEntity();
-    entity.setOrderId(1L);
-    entity.setLevel(1);
-    entity.setCode("Code");
-    entity.setParent("Parent");
-    entity.setDescription("Description");
-    entity.setItemIncludes("Item Includes");
-    entity.setItemAlsoIncludes("Item Also Includes");
-    entity.setItemExcludes("Item Excludes");
-    entity.setRulings("Rulings");
-    entity.setRefToIsicRev4("Ref 4");
+    @MockBean
+    private Mapper<OrderAggregate, OrderEntity> mapper;
 
-    OrderDto orderDto =
-        ImmutableOrderDto.builder()
-            .orderId(1)
-            .level(1)
-            .code("code")
-            .parent("parent")
-            .description("description")
-            .itemIncludes("Item Includes")
-            .itemAlsoIncludes("Item Also Includes")
-            .rulings("rulings")
-            .itemExcludes("item Excludes")
-            .refToIsicRev4("rev 4")
-            .build();
-    orderDtoList.add(orderDto);
-  }
+    @MockBean
+    private Mapper<OrderAggregate, OrderDto> dtoMapper;
 
-  @Test
-  void findAll() {
-    Mockito.when(mapper.mapToDomain(entity)).thenReturn(orderAggregate);
-    Mockito.when(repository.findAll()).thenReturn(orderAggregateList);
-    assertNotNull(service.findAll());
-    assertEquals(service.findAll().get(0).orderId().value(), 1);
-  }
+    private OrderAggregate orderAggregate;
+    private OrderEntity entity;
+    private List<OrderAggregate> orderAggregateList;
+    private List<OrderDto> orderDtoList;
 
-  @Test
-  void findById() {
-    Mockito.when(mapper.mapToDomain(entity)).thenReturn(orderAggregate);
-    Mockito.when(repository.findById(1)).thenReturn(orderAggregate);
-    assertNotNull(service.findById(1));
-    assertEquals(service.findById(1).orderId().value(), 1);
-  }
+    @BeforeEach
+    void setUp() {
+        orderAggregateList = new ArrayList<>();
+        orderDtoList = new ArrayList<>();
 
-  @Test
-  void add() throws IOException {
-    MockMultipartFile file =
-        new MockMultipartFile(
-            "file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, World!".getBytes());
-    Mockito.when(repository.add(orderAggregateList)).thenReturn(true);
-    Mockito.when(util.convertCsvToDto(file.getInputStream())).thenReturn(orderDtoList);
-    assertTrue(service.add(file));
-  }
+        orderAggregate = ImmutableOrderAggregate.builder()
+                .orderId(ImmutableOrderId.of(1L))
+                .level(ImmutableLevel.of(1))
+                .code(ImmutableCode.of("A"))
+                .parent(ImmutableParent.of("Ko"))
+                .description(ImmutableDescription.of("Description"))
+                .itemIncludes(Optional.of("item includes").map(ImmutableItemIncludes::of))
+                .itemAlsoIncludes(Optional.of("Item also includes").map(ImmutableItemAlsoIncludes::of))
+                .rulings(Optional.of("Rulings").map(ImmutableRulings::of))
+                .itemExcludes(Optional.of("Item excludes").map(ImmutableItemExcludes::of))
+                .refToIsicRev4(ImmutableReferenceToIsicRev4.of("Rev 4"))
+                .build();
+        orderAggregateList.add(orderAggregate);
+
+        entity = new OrderEntity();
+        entity.setOrderId(1L);
+        entity.setLevel(1);
+        entity.setCode("Code");
+        entity.setParent("Parent");
+        entity.setDescription("Description");
+        entity.setItemIncludes("Item Includes");
+        entity.setItemAlsoIncludes("Item Also Includes");
+        entity.setItemExcludes("Item Excludes");
+        entity.setRulings("Rulings");
+        entity.setRefToIsicRev4("Ref 4");
+
+        OrderDto orderDto = ImmutableOrderDto.builder()
+                .orderId(1)
+                .level(1)
+                .code("code")
+                .parent("parent")
+                .description("description")
+                .itemIncludes("Item Includes")
+                .itemAlsoIncludes("Item Also Includes")
+                .rulings("rulings")
+                .itemExcludes("item Excludes")
+                .refToIsicRev4("rev 4")
+                .build();
+        orderDtoList.add(orderDto);
+    }
+
+    @Test
+    void findAll() {
+        Mockito.when(mapper.mapToDomain(entity)).thenReturn(orderAggregate);
+        Mockito.when(repository.findAll()).thenReturn(orderAggregateList);
+        assertNotNull(service.findAll());
+        assertEquals(service.findAll().get(0).orderId().value(), 1);
+    }
+
+    @Test
+    void findById() {
+        Mockito.when(mapper.mapToDomain(entity)).thenReturn(orderAggregate);
+        Mockito.when(repository.findById(1)).thenReturn(orderAggregate);
+        assertNotNull(service.findById(1));
+        assertEquals(service.findById(1).orderId().value(), 1);
+    }
+
+    @Test
+    void add() throws IOException {
+        MockMultipartFile file =
+                new MockMultipartFile("file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, World!".getBytes());
+        Mockito.when(repository.add(orderAggregateList)).thenReturn(true);
+        Mockito.when(util.convertCsvToDto(file.getInputStream())).thenReturn(orderDtoList);
+        assertTrue(service.add(file));
+    }
 }
