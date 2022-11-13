@@ -34,4 +34,4 @@ Feature: Nace service Testing
   Scenario: Add new order
     Given path "/order/"
     And passing csv file as query param
-    And a request is made using method "POST"
+    Then the request should respond with the status code 200

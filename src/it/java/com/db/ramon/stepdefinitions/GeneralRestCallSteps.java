@@ -64,8 +64,7 @@ public class GeneralRestCallSteps {
         behaviourState.putResult(
                 StateConstants.RESPONSE_ENTITY,
                 () -> restTemplate.exchange(
-                        uriComponentsBuilder.toUriString(), HttpMethod.POST, requestEntity, String.class));
-        final var response = behaviourState.fetchValue(StateConstants.RESPONSE_ENTITY, ResponseEntity.class);
+                        uriComponentsBuilder.toUriString(), HttpMethod.POST, requestEntity, Boolean.class));
     }
 
     @When("request body is {string}")

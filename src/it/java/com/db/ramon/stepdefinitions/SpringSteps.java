@@ -39,10 +39,10 @@ public class SpringSteps {
     }
 
     @ClassRule
-    private static final PostgresContainer POSTGRES_CONTAINER = PostgresContainer.getInstance();
+    public static final PostgresContainer POSTGRES_CONTAINER = PostgresContainer.getInstance();
 
     @ClassRule
-    private static final ExternalServiceContainer SERVICE_CONTAINER = ExternalServiceContainer.getInstance();
+    public static final ExternalServiceContainer SERVICE_CONTAINER = ExternalServiceContainer.getInstance();
 
     static class Initiliazer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 

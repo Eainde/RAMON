@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,7 @@ class OrderServiceTest {
         orderDtoList.add(orderDto);
     }
 
+    @DisplayName("Find all the orders")
     @Test
     void findAll() {
         Mockito.when(mapper.mapToDomain(entity)).thenReturn(orderAggregate);
@@ -108,6 +110,7 @@ class OrderServiceTest {
         assertEquals(service.findAll().get(0).orderId().value(), 1);
     }
 
+    @DisplayName("Find order by its ID")
     @Test
     void findById() {
         Mockito.when(mapper.mapToDomain(entity)).thenReturn(orderAggregate);
@@ -116,6 +119,7 @@ class OrderServiceTest {
         assertEquals(service.findById(1).orderId().value(), 1);
     }
 
+    @DisplayName("Add order by passing the csv file")
     @Test
     void add() throws IOException {
         InputStream is = getClass().getClassLoader().getResourceAsStream("NACE.csv");
