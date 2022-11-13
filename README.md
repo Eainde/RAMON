@@ -1,7 +1,7 @@
 # RAMON
 
 ## Build application
-mvn clean install
+- mvn clean install
 
 ## Run the application on local
 - java -Dspring.profiles.active=test -jar target/app.1.0-SNAPSHOT.jar
