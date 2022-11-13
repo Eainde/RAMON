@@ -7,3 +7,7 @@ mvn clean install
 - docker compose up
 - docker build -t ramon .
 - docker run -t ramon
+
+## Swagger docs
+- http://localhost:8443/swagger-ui
+
