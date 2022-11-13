@@ -5,8 +5,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.db.ramon.BehaviourState;
 import com.db.ramon.constants.StateConstants;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;

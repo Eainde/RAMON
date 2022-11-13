@@ -4,8 +4,10 @@ import com.db.ramon.BehaviourState;
 import com.db.ramon.constants.StateConstants;
 import com.db.ramon.containers.ExternalServiceContainer;
 import com.db.ramon.containers.PostgresContainer;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.spring.CucumberContextConfiguration;
+
 import org.junit.ClassRule;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;

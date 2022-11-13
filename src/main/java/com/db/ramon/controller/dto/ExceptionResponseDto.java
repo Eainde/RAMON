@@ -1,6 +1,7 @@
 package com.db.ramon.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 import org.immutables.value.Value;
 
 @Value.Immutable

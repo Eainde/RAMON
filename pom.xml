@@ -265,12 +265,12 @@
                             <include>src/test/java/**</include>
                             <include>src/it/java/**</include>
                         </includes>
-                        <importOrder>
-                            <order>com, diffplug,java,javax,org</order>
-                        </importOrder>
                         <palantirJavaFormat>
                             <version>${palantirJavaFormat.version}</version>
                         </palantirJavaFormat>
+                        <importOrder>
+                            <order>com, diffplug,java,javax,org</order>
+                        </importOrder>
                     </java>
                 </configuration>
             </plugin>

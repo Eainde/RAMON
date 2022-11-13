@@ -3,6 +3,7 @@ package com.db.ramon.value.object;
 import com.db.ramon.Wrapped;
 import com.db.ramon.domain.Domain;
 import com.google.common.base.Preconditions;
+
 import org.immutables.value.Value;
 
 @Value.Immutable

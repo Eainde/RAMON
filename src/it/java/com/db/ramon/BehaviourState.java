@@ -1,11 +1,13 @@
 package com.db.ramon;
 
 import io.cucumber.spring.CucumberTestContext;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 

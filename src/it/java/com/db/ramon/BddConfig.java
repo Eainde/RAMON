@@ -1,6 +1,7 @@
 package com.db.ramon;
 
 import java.io.IOException;
+
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
