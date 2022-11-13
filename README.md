@@ -12,5 +12,5 @@
 - docker run -t ramon
 
 ## Swagger docs
-- http://localhost:8443/swagger-ui
+- http://localhost:8443/swagger-ui.html
 

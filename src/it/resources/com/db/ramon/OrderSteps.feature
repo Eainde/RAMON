@@ -6,7 +6,7 @@ Feature: Order service Testing
 
   @OrderService
   Scenario: Get Order record
-    Given path "/order/"
+    Given path "/v1/order/"
     And Add following orders in database
       | orderId   | _level | code | parent | description         | item_includes | item_also_includes | rulings | item_excludes | ref_to_isic_rev_4 |
       | 1         | 1      | A    | 1      | This is description | This includes | This also includes | ho      | Item excludes | 11                |
@@ -19,7 +19,7 @@ Feature: Order service Testing
 
   @OrderService
   Scenario: Get Order record by id
-    Given path "/order/1"
+    Given path "/v1/order/1"
     And Add following orders in database
       | orderId | _level | code | parent | description         | item_includes | item_also_includes | rulings | item_excludes | ref_to_isic_rev_4 |
       | 1       | 1      | A    | 1      | This is description | This includes | This also includes | ho      | Item excludes | 11                |
@@ -32,6 +32,6 @@ Feature: Order service Testing
 
   @OrderService
   Scenario: Add new order
-    Given path "/order/"
+    Given path "/v1/order/"
     And passing csv file as query param
     Then the request should respond with the status code 200

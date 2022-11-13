@@ -75,7 +75,7 @@ class OrderControllerTest {
     @Test
     void findAll() throws Exception {
         Mockito.when(service.findAll()).thenReturn(orderAggregateList);
-        mockMvc.perform(get("/order/"))
+        mockMvc.perform(get("/v1/order/"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(MockMvcResultHandlers.print());
@@ -85,7 +85,7 @@ class OrderControllerTest {
     @ValueSource(ints = 1)
     void findById(int id) throws Exception {
         Mockito.when(service.findById(id)).thenReturn(orderAggregate);
-        mockMvc.perform(get("/order/{id}", id)).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
+        mockMvc.perform(get("/v1/order/{id}", id)).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
     @Test
@@ -93,6 +93,6 @@ class OrderControllerTest {
         MockMultipartFile file =
                 new MockMultipartFile("file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, World!".getBytes());
         Mockito.when(service.add(file)).thenReturn(true);
-        mockMvc.perform(multipart("/order/").file(file)).andExpect(status().isOk());
+        mockMvc.perform(multipart("/v1/order/").file(file)).andExpect(status().isOk());
     }
 }

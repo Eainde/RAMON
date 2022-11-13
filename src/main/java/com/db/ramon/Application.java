@@ -11,7 +11,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication(scanBasePackages = {"com.db.ramon"})
 @EnableJpaRepositories(basePackages = "com.db.ramon")
-// @EntityScan("com.db.entity")
 public class Application {
     private static final String LOCALHOST = "http://localhost:[*]";
 
