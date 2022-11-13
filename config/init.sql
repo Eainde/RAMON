@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS _order(order_id integer PRIMARY KEY NOT NULL,
                     item_includes VARCHAR(100000),
                     item_also_includes VARCHAR(100000),
                     rulings VARCHAR(1000),
-                    item_excludes VARCHAR(10000),
+                    item_excludes VARCHAR(100000),
                     ref_to_isic_rev_4 VARCHAR(1000));
 
 
