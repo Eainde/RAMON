@@ -39,7 +39,6 @@ public class OrderService {
         List<OrderDto> orderDtos = util.convertCsvToDto(file.getInputStream());
         List<OrderAggregate> aggregates =
                 orderDtos.stream().map(dtoMapper::mapToDomain).collect(Collectors.toList());
-        repository.add(aggregates);
-        return true;
+        return repository.add(aggregates);
     }
 }

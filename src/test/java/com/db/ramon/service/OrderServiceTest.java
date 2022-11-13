@@ -1,6 +1,7 @@
 package com.db.ramon.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 import com.db.ramon.Mapper;
 import com.db.ramon.aggregate.ImmutableOrderAggregate;
@@ -17,6 +18,7 @@ import com.db.ramon.value.object.ImmutableItemIncludes;
 import com.db.ramon.value.object.ImmutableReferenceToIsicRev4;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -116,10 +118,10 @@ class OrderServiceTest {
 
     @Test
     void add() throws IOException {
-        MockMultipartFile file =
-                new MockMultipartFile("file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, World!".getBytes());
-        Mockito.when(repository.add(orderAggregateList)).thenReturn(true);
-        Mockito.when(util.convertCsvToDto(file.getInputStream())).thenReturn(orderDtoList);
+        InputStream is = getClass().getClassLoader().getResourceAsStream("NACE.csv");
+        MockMultipartFile file = new MockMultipartFile("NACE", "NACE.csv", MediaType.TEXT_PLAIN_VALUE, is);
+        Mockito.when(util.convertCsvToDto(any())).thenReturn(orderDtoList);
+        Mockito.when(repository.add(any())).thenReturn(true);
         assertTrue(service.add(file));
     }
 }
