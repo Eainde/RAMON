@@ -18,6 +18,18 @@ Feature: Order service Testing
     And the response body should match "allOrderResponseDto"
 
   @OrderService
+  Scenario: Get failed response for order record by id
+    Given path "/v1/order/6"
+    And Add following orders in database
+      | orderId | _level | code | parent | description         | item_includes | item_also_includes | rulings | item_excludes | ref_to_isic_rev_4 |
+      | 1       | 1      | A    | 1      | This is description | This includes | This also includes | ho      | Item excludes | 11                |
+      | 2       | 1      | A    | 1      | This is description | This includes | This also includes | ho      | Item excludes | 11                |
+      | 3       | 1      | A    | 1      | This is description | This includes | This also includes | ho      | Item excludes | 11                |
+      | 4       | 1      | A    | 1      | This is description | This includes | This also includes | ho      | Item excludes | 11                |
+    And a request is made using method "GET"
+    Then the request should respond with the status code 500
+
+  @OrderService
   Scenario: Get Order record by id
     Given path "/v1/order/1"
     And Add following orders in database

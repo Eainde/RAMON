@@ -8,7 +8,7 @@ import org.immutables.value.Value;
 @Value.Immutable
 @Wrapped
 public abstract class Level extends Domain<Integer> {
-    private static final String LEVEL_VALIDATION_FAILED_MESSAGE = "order id cannot be 0";
+    private static final String LEVEL_VALIDATION_FAILED_MESSAGE = "level cannot be 0";
 
     @Value.Check
     public void check() {

@@ -8,7 +8,7 @@ import org.immutables.value.Value;
 @Value.Immutable
 @Wrapped
 public abstract class Rulings extends Domain<String> {
-    private static final int RULINGS_MAX_LENGTH = 100;
+    private static final int RULINGS_MAX_LENGTH = 1000;
     private static final String RULINGS_MAX_LENGTH_VALIDATION_FAILED_MESSAGE = "%s must be less than or equals %s";
 
     @Value.Check
