@@ -73,7 +73,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void findAll() throws Exception {
+    void find_all_orders() throws Exception {
         Mockito.when(service.findAll()).thenReturn(orderAggregateList);
         mockMvc.perform(get("/v1/order/"))
                 .andExpect(status().isOk())
@@ -83,13 +83,13 @@ class OrderControllerTest {
 
     @ParameterizedTest
     @ValueSource(ints = 1)
-    void findById(int id) throws Exception {
+    void find_order_by_ID(int id) throws Exception {
         Mockito.when(service.findById(id)).thenReturn(orderAggregate);
         mockMvc.perform(get("/v1/order/{id}", id)).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
     @Test
-    void upload() throws Exception {
+    void upload_file() throws Exception {
         MockMultipartFile file =
                 new MockMultipartFile("file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, World!".getBytes());
         Mockito.when(service.add(file)).thenReturn(true);

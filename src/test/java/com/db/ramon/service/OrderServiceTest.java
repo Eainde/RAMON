@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -119,6 +120,15 @@ class OrderServiceTest {
         assertEquals(service.findById(1).orderId().value(), 1);
     }
 
+    @DisplayName("Should throw exception when ID does not exists")
+    @Test
+    void should_throw_exception() {
+        Mockito.when(mapper.mapToDomain(entity)).thenReturn(orderAggregate);
+        Mockito.when(repository.findById(1)).thenReturn(orderAggregate);
+        assertNotNull(service.findById(1));
+
+        Assertions.assertThrows(NullPointerException.class, () -> service.findById(5).orderId().value());
+    }
     @DisplayName("Add order by passing the csv file")
     @Test
     void add() throws IOException {
