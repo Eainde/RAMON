@@ -127,8 +127,10 @@ class OrderServiceTest {
         Mockito.when(repository.findById(1)).thenReturn(orderAggregate);
         assertNotNull(service.findById(1));
 
-        Assertions.assertThrows(NullPointerException.class, () -> service.findById(5).orderId().value());
+        Assertions.assertThrows(
+                NullPointerException.class, () -> service.findById(5).orderId().value());
     }
+
     @DisplayName("Add order by passing the csv file")
     @Test
     void add() throws IOException {
